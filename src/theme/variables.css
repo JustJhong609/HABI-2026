@@ -1,0 +1,8 @@
+:root {
+  --ion-color-primary: #365314;
+  --ion-color-primary-rgb: 54, 83, 20;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-secondary: #8b5a2b;
+  --ion-color-secondary-rgb: 139, 90, 43;
+  --ion-font-family: "Poppins", sans-serif;
+}
