@@ -2,11 +2,13 @@ import {
   IonButton,
   IonCard,
   IonCardContent,
+  IonContent,
   IonIcon,
   IonInput,
   IonItem,
   IonLabel,
   IonList,
+  IonPage,
   IonSelect,
   IonSelectOption,
   IonSpinner,
@@ -117,150 +119,154 @@ const WasteInputPage = () => {
   const locationLabel = LOCATIONS.find((location) => location.id === profile.locationId)?.label ?? "Unknown";
 
   return (
-    <div className="prototype-shell">
-      <div className="mb-6 flex items-center justify-between rounded-2xl bg-earth-500 px-4 py-3 text-white shadow-lg">
-        <div>
-          <p className="text-xs uppercase tracking-wide text-orange-100">Farm Profile Active</p>
-          <h1 className="font-display text-lg font-bold">{locationLabel}</h1>
-        </div>
-        <p className="rounded-full bg-orange-50 px-3 py-1 text-xs font-semibold text-earth-700">Step 2 of 4</p>
-      </div>
-
-      <div className="grid gap-5 lg:grid-cols-[1.1fr,1fr]">
-        <IonCard className="glass-card ion-no-margin">
-          <IonCardContent className="space-y-4 p-5">
-            <h2 className="section-title">Add Agricultural Waste</h2>
-            <p className="text-sm text-slate-600">Enter waste type and weight, or upload a photo to simulate AI recognition.</p>
-
-            <IonItem className="rounded-xl border border-lime-200">
-              <IonLabel position="stacked" className="font-semibold">
-                Waste type
-              </IonLabel>
-              <IonSelect value={wasteTypeId} onIonChange={(event) => setWasteTypeId(event.detail.value)}>
-                {WASTE_TYPES.map((type) => (
-                  <IonSelectOption value={type.id} key={type.id}>
-                    {type.label}
-                  </IonSelectOption>
-                ))}
-              </IonSelect>
-            </IonItem>
-
-            <IonItem className="rounded-xl border border-lime-200">
-              <IonLabel position="stacked" className="font-semibold">
-                Weight (kg)
-              </IonLabel>
-              <IonInput
-                inputMode="decimal"
-                type="number"
-                min="0"
-                value={weightInput}
-                placeholder="e.g., 45"
-                onIonInput={(event) => setWeightInput(event.detail.value ?? "")}
-              />
-            </IonItem>
-
-            <div className="grid gap-3 sm:grid-cols-2">
-              <IonButton expand="block" size="large" color="primary" onClick={() => addEntry("manual")}>
-                Add Entry
-              </IonButton>
-              <IonButton
-                expand="block"
-                size="large"
-                color="secondary"
-                fill="outline"
-                onClick={triggerPhotoPicker}
-                disabled={processingPhoto}
-              >
-                <IonIcon icon={cameraOutline} slot="start" />
-                {processingPhoto ? "Identifying..." : "Upload Photo"}
-              </IonButton>
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/*"
-                className="hidden"
-                onChange={onPhotoSelected}
-              />
+    <IonPage>
+      <IonContent fullscreen className="agri-bg">
+        <div className="prototype-shell">
+          <div className="mb-6 flex items-center justify-between rounded-2xl bg-earth-500 px-4 py-3 text-white shadow-lg">
+            <div>
+              <p className="text-xs uppercase tracking-wide text-orange-100">Farm Profile Active</p>
+              <h1 className="font-display text-lg font-bold">{locationLabel}</h1>
             </div>
+            <p className="rounded-full bg-orange-50 px-3 py-1 text-xs font-semibold text-earth-700">Step 2 of 4</p>
+          </div>
 
-            {processingPhoto && (
-              <div className="rounded-xl bg-lime-100 px-4 py-3 text-sm font-medium text-field-700">
-                Image uploaded - identifying waste...
-              </div>
-            )}
-          </IonCardContent>
-        </IonCard>
+          <div className="grid gap-5 lg:grid-cols-[1.1fr,1fr]">
+            <IonCard className="glass-card ion-no-margin">
+              <IonCardContent className="space-y-4 p-5">
+                <h2 className="section-title">Add Agricultural Waste</h2>
+                <p className="text-sm text-slate-600">Enter waste type and weight, or upload a photo to simulate AI recognition.</p>
 
-        <IonCard className="glass-card ion-no-margin">
-          <IonCardContent className="space-y-4 p-5">
-            <h2 className="section-title">Waste Entries</h2>
-            {wasteEntries.length === 0 ? (
-              <p className="rounded-xl bg-slate-100 px-4 py-3 text-sm text-slate-600">No entries yet. Add at least one input.</p>
-            ) : (
-              <IonList className="space-y-3 bg-transparent">
-                {wasteEntries.map((entry) => (
-                  <div className="rounded-xl border border-lime-200 bg-white p-3" key={entry.id}>
-                    <div className="grid gap-2 sm:grid-cols-[1fr,120px,auto] sm:items-end">
-                      <IonItem className="rounded-lg border border-slate-200">
-                        <IonLabel position="stacked">Type</IonLabel>
-                        <IonSelect
-                          value={entry.wasteTypeId}
-                          onIonChange={(event) => updateEntry(entry.id, { wasteTypeId: event.detail.value })}
-                        >
-                          {WASTE_TYPES.map((type) => (
-                            <IonSelectOption key={type.id} value={type.id}>
-                              {type.label}
-                            </IonSelectOption>
-                          ))}
-                        </IonSelect>
-                      </IonItem>
+                <IonItem className="rounded-xl border border-lime-200">
+                  <IonLabel position="stacked" className="font-semibold">
+                    Waste type
+                  </IonLabel>
+                  <IonSelect value={wasteTypeId} onIonChange={(event) => setWasteTypeId(event.detail.value)}>
+                    {WASTE_TYPES.map((type) => (
+                      <IonSelectOption value={type.id} key={type.id}>
+                        {type.label}
+                      </IonSelectOption>
+                    ))}
+                  </IonSelect>
+                </IonItem>
 
-                      <IonItem className="rounded-lg border border-slate-200">
-                        <IonLabel position="stacked">Kg</IonLabel>
-                        <IonInput
-                          type="number"
-                          min="0"
-                          value={entry.weightKg}
-                          onIonInput={(event) => {
-                            const nextWeight = Number(event.detail.value);
-                            if (nextWeight > 0) {
-                              updateEntry(entry.id, { weightKg: nextWeight });
-                            }
-                          }}
-                        />
-                      </IonItem>
+                <IonItem className="rounded-xl border border-lime-200">
+                  <IonLabel position="stacked" className="font-semibold">
+                    Weight (kg)
+                  </IonLabel>
+                  <IonInput
+                    inputMode="decimal"
+                    type="number"
+                    min="0"
+                    value={weightInput}
+                    placeholder="e.g., 45"
+                    onIonInput={(event) => setWeightInput(event.detail.value ?? "")}
+                  />
+                </IonItem>
 
-                      <div className="flex gap-2">
-                        <IonButton fill="clear" color="medium" title="Edit entry">
-                          <IonIcon icon={createOutline} />
-                        </IonButton>
-                        <IonButton fill="clear" color="danger" title="Remove entry" onClick={() => removeEntry(entry.id)}>
-                          <IonIcon icon={trashOutline} />
-                        </IonButton>
-                      </div>
-                    </div>
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <IonButton expand="block" size="large" color="primary" onClick={() => addEntry("manual")}>
+                    Add Entry
+                  </IonButton>
+                  <IonButton
+                    expand="block"
+                    size="large"
+                    color="secondary"
+                    fill="outline"
+                    onClick={triggerPhotoPicker}
+                    disabled={processingPhoto}
+                  >
+                    <IonIcon icon={cameraOutline} slot="start" />
+                    {processingPhoto ? "Identifying..." : "Upload Photo"}
+                  </IonButton>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={onPhotoSelected}
+                  />
+                </div>
 
-                    <IonText className="mt-2 block text-xs text-slate-500">
-                      Source: {entry.source === "photo" ? "Photo AI simulation" : "Manual entry"}
-                    </IonText>
+                {processingPhoto && (
+                  <div className="rounded-xl bg-lime-100 px-4 py-3 text-sm font-medium text-field-700">
+                    Image uploaded - identifying waste...
                   </div>
-                ))}
-              </IonList>
-            )}
+                )}
+              </IonCardContent>
+            </IonCard>
 
-            <IonButton expand="block" size="large" onClick={predict} disabled={predicting || wasteEntries.length === 0}>
-              {predicting ? (
-                <span className="flex items-center gap-2">
-                  <IonSpinner name="dots" /> Running AI prediction...
-                </span>
-              ) : (
-                "Predict Biogas Potential"
-              )}
-            </IonButton>
-          </IonCardContent>
-        </IonCard>
-      </div>
-    </div>
+            <IonCard className="glass-card ion-no-margin">
+              <IonCardContent className="space-y-4 p-5">
+                <h2 className="section-title">Waste Entries</h2>
+                {wasteEntries.length === 0 ? (
+                  <p className="rounded-xl bg-slate-100 px-4 py-3 text-sm text-slate-600">No entries yet. Add at least one input.</p>
+                ) : (
+                  <IonList className="space-y-3 bg-transparent">
+                    {wasteEntries.map((entry) => (
+                      <div className="rounded-xl border border-lime-200 bg-white p-3" key={entry.id}>
+                        <div className="grid gap-2 sm:grid-cols-[1fr,120px,auto] sm:items-end">
+                          <IonItem className="rounded-lg border border-slate-200">
+                            <IonLabel position="stacked">Type</IonLabel>
+                            <IonSelect
+                              value={entry.wasteTypeId}
+                              onIonChange={(event) => updateEntry(entry.id, { wasteTypeId: event.detail.value })}
+                            >
+                              {WASTE_TYPES.map((type) => (
+                                <IonSelectOption key={type.id} value={type.id}>
+                                  {type.label}
+                                </IonSelectOption>
+                              ))}
+                            </IonSelect>
+                          </IonItem>
+
+                          <IonItem className="rounded-lg border border-slate-200">
+                            <IonLabel position="stacked">Kg</IonLabel>
+                            <IonInput
+                              type="number"
+                              min="0"
+                              value={entry.weightKg}
+                              onIonInput={(event) => {
+                                const nextWeight = Number(event.detail.value);
+                                if (nextWeight > 0) {
+                                  updateEntry(entry.id, { weightKg: nextWeight });
+                                }
+                              }}
+                            />
+                          </IonItem>
+
+                          <div className="flex gap-2">
+                            <IonButton fill="clear" color="medium" title="Edit entry">
+                              <IonIcon icon={createOutline} />
+                            </IonButton>
+                            <IonButton fill="clear" color="danger" title="Remove entry" onClick={() => removeEntry(entry.id)}>
+                              <IonIcon icon={trashOutline} />
+                            </IonButton>
+                          </div>
+                        </div>
+
+                        <IonText className="mt-2 block text-xs text-slate-500">
+                          Source: {entry.source === "photo" ? "Photo AI simulation" : "Manual entry"}
+                        </IonText>
+                      </div>
+                    ))}
+                  </IonList>
+                )}
+
+                <IonButton expand="block" size="large" onClick={predict} disabled={predicting || wasteEntries.length === 0}>
+                  {predicting ? (
+                    <span className="flex items-center gap-2">
+                      <IonSpinner name="dots" /> Running AI prediction...
+                    </span>
+                  ) : (
+                    "Predict Biogas Potential"
+                  )}
+                </IonButton>
+              </IonCardContent>
+            </IonCard>
+          </div>
+        </div>
+      </IonContent>
+    </IonPage>
   );
 };
 

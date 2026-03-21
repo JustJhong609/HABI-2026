@@ -1,4 +1,4 @@
-import { IonApp, IonContent, IonPage, IonRouterOutlet } from "@ionic/react";
+import { IonApp, IonRouterOutlet } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 import { Redirect, Route } from "react-router-dom";
 import { AppProvider } from "./context/AppContext";
@@ -12,17 +12,13 @@ const App = () => {
     <IonApp>
       <IonReactRouter>
         <AppProvider>
-          <IonPage>
-            <IonContent fullscreen className="agri-bg">
-              <IonRouterOutlet>
-                <Route exact path="/" component={OnboardingPage} />
-                <Route exact path="/input" component={WasteInputPage} />
-                <Route exact path="/dashboard" component={DashboardPage} />
-                <Route exact path="/guidance" component={GuidancePage} />
-                <Redirect to="/" />
-              </IonRouterOutlet>
-            </IonContent>
-          </IonPage>
+          <IonRouterOutlet>
+            <Route exact path="/" component={OnboardingPage} />
+            <Route exact path="/input" component={WasteInputPage} />
+            <Route exact path="/dashboard" component={DashboardPage} />
+            <Route exact path="/guidance" component={GuidancePage} />
+            <Redirect to="/" />
+          </IonRouterOutlet>
         </AppProvider>
       </IonReactRouter>
     </IonApp>
