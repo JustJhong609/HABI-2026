@@ -24,6 +24,42 @@ export const LOCATIONS: LocationOption[] = [
     label: "Iloilo",
     multiplier: 1.08,
     climateNote: "Humid lowland climate favors stable microbial digestion."
+  },
+  {
+    id: "bukidnon",
+    label: "Bukidnon",
+    multiplier: 1.03,
+    climateNote: "Mild highland climate supports stable digestion when feed is consistent."
+  },
+  {
+    id: "davao-del-sur",
+    label: "Davao del Sur",
+    multiplier: 1.06,
+    climateNote: "Warm and humid conditions can improve methane production rates."
+  },
+  {
+    id: "south-cotabato",
+    label: "South Cotabato",
+    multiplier: 1.02,
+    climateNote: "Balanced temperatures are favorable for regular biogas output."
+  },
+  {
+    id: "misamis-oriental",
+    label: "Misamis Oriental",
+    multiplier: 1.05,
+    climateNote: "Coastal humidity helps maintain digester moisture balance."
+  },
+  {
+    id: "agusan-del-sur",
+    label: "Agusan del Sur",
+    multiplier: 1.04,
+    climateNote: "Warm lowland weather can support active microbial digestion."
+  },
+  {
+    id: "zamboanga-del-sur",
+    label: "Zamboanga del Sur",
+    multiplier: 1.01,
+    climateNote: "Tropical temperatures support steady gas generation with proper feeding."
   }
 ];
 
@@ -39,7 +75,8 @@ export const WASTE_TYPES: WasteTypeOption[] = [
   { id: "cow-manure", label: "Cow manure", factorM3PerKg: 0.04 },
   { id: "pig-manure", label: "Pig manure", factorM3PerKg: 0.045 },
   { id: "corn-stover", label: "Corn stover", factorM3PerKg: 0.028 },
-  { id: "chicken-litter", label: "Chicken litter", factorM3PerKg: 0.035 }
+  { id: "chicken-litter", label: "Chicken litter", factorM3PerKg: 0.035 },
+  { id: "pineapple-waste", label: "Pineapple waste", factorM3PerKg: 0.03 }
 ];
 
 export const LPG_EQUIVALENT_KG_PER_M3 = 0.5;
